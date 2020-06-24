@@ -1,0 +1,5 @@
+[package]
+name = "abstrack"
+version = "0.1.0"
+authors = ["Daniel Shiposha <mrshiposha@gmail.com>"]
+edition = "2018"
