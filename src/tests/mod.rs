@@ -114,7 +114,7 @@ fn test_insert_not_aligned() -> Result<()> {
     test_insert_not_inner_range(&mut track);
     let mut canceled = vec![];
     track.insert_not_aligned(2, DataNA(2), |node| canceled.push(node.clone()))?;
-    test_not_aligned_node(track.buf.last().unwrap(), 2, DataNA(2), 5, 5);
+    test_not_aligned_node(track.buf.last().unwrap(), 2, DataNA(2), 10, 10);
     assert_eq!(canceled.len(), 1);
     test_not_aligned_node(&canceled[0], 5, DataNA(5), 10, 10);
     assert_eq!(track.ranges.len(), 1);

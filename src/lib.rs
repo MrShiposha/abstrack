@@ -249,18 +249,27 @@ impl<I: TrackInterpolator> Track<I> {
             handler(node)
         }
 
-        let nearest_canceled_key = match nearest_canceled_node {
-            Node::<I>::Aligned(_) => self.key_end.add_distance(&self.next_step),
-            Node::<I>::NotAligned(ref node) => node.key.clone()
+        let (canceled_node, canceled_key) = match nearest_canceled_node {
+            Node::<I>::Aligned(ref data) => {
+                let node = data.clone();
+                let key = self.key_end.add_distance(&self.next_step);
+
+                (node, key)
+            },
+            Node::<I>::NotAligned(ref data) => {
+                let node = data.canceled_node().clone();
+                let key = data.canceled_key().clone();
+
+                (node, key)
+            }
         };
-        let nearest_canceled_node = (*nearest_canceled_node).clone();
 
         let node_key = key.clone();
         let not_aligned_node = NotAlignedNode::<I> {
             node,
             key,
-            canceled_node: nearest_canceled_node,
-            canceled_key: nearest_canceled_key,
+            canceled_node,
+            canceled_key,
             phantom: PhantomData
         };
 
